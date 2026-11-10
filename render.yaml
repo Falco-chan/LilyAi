@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: lilyai-fan-tracker
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn fantracker.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      # Secrets: Render asks for these on first deploy and never stores them in the repo.
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: UMAMOE_API_KEY
+        sync: false
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
+      - key: API_READ_KEY
+        sync: false
+      - key: API_WRITE_KEY
+        sync: false
+      # Optional: set to your server's ID so slash commands appear instantly.
+      - key: DISCORD_GUILD_ID
+        sync: false
+      - key: CLUB1_ID
+        value: "974470619"
+      - key: CLUB2_ID
+        value: "325938032"
+      - key: SYNC_INTERVAL_SECONDS
+        value: "300"
+      - key: SELF_PING_INTERVAL_SECONDS
+        value: "300"
